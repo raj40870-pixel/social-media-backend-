@@ -3,7 +3,7 @@ import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { protect } from '../middleware/auth.middleware.js';
-import { getChatHistory, sendMessage, uploadFile } from '../controllers/message.controller.js';
+import { getChatHistory, sendMessage, uploadFile, deleteMessage } from '../controllers/message.controller.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -28,5 +28,6 @@ const upload = multer({ storage: storage });
 router.get('/:userId', protect, getChatHistory);
 router.post('/send', protect, sendMessage);
 router.post('/upload', protect, upload.single('file'), uploadFile);
+router.delete('/:messageId', protect, deleteMessage);
 
 export default router;
