@@ -32,14 +32,6 @@ export const sendMessage = async (req, res) => {
 
         const savedMessage = await message.save();
 
-        // Emit socket event to the receiver if they are online
-        const io = req.app.get('io');
-        if (io) {
-            io.to(receiverId.toString()).emit('receiveMessage', savedMessage);
-            // Also emit to sender in case they have multiple tabs open
-            io.to(senderId.toString()).emit('receiveMessage', savedMessage);
-        }
-
         res.json({ message: 'Message sent', data: savedMessage });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -52,9 +44,8 @@ export const uploadFile = async (req, res) => {
             return res.status(400).json({ message: 'No file uploaded' });
         }
         
-        // Generate the URL for the uploaded file
-        // Assumes backend runs on localhost:3456
-        const fileUrl = `http://localhost:3456/uploads/${req.file.filename}`;
+        // Cloudinary automatically provides the URL in req.file.path
+        const fileUrl = req.file.path;
         res.json({ data: fileUrl });
     } catch (err) {
         res.status(500).json({ message: err.message });

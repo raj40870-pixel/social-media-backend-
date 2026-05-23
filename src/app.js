@@ -7,6 +7,7 @@ import requestRoutes from './routes/request.routes.js';
 import userRoutes from './routes/user.routes.js';
 import connectionRoutes from './routes/connection.routes.js';
 import messageRoutes from './routes/message.routes.js';
+import connectDB from './config/db.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -14,6 +15,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Connect to database for Serverless environment
+connectDB().catch(err => console.error(err));
 
 // Middleware
 app.use(cors({
