@@ -61,7 +61,9 @@ export const login = async (req, res) => {
             // Set cookie
             res.cookie('token', token, {
                 httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+                sameSite: 'none',
+                secure: true
             });
 
             res.json({
@@ -86,7 +88,9 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     res.cookie('token', null, {
         httpOnly: true,
-        expires: new Date(Date.now())
+        expires: new Date(Date.now()),
+        sameSite: 'none',
+        secure: true
     });
     res.status(200).json({ message: 'User successfully logged out' });
 };
