@@ -21,7 +21,7 @@ connectDB().catch(err => console.error(err));
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: true,
     credentials: true
 }));
 app.use(express.json()); // Parses incoming JSON requests
